@@ -8,7 +8,7 @@ namespace WebApplication5.Repositories
         Task<DepartmentEmployee?> GetByIdAsync(int id);
         Task<DepartmentEmployee> AddAsync(DepartmentEmployee employee);
         Task UpdateAsync(DepartmentEmployee employee);
-        Task DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
     }
 }

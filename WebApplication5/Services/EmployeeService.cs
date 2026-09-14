@@ -60,16 +60,8 @@ namespace WebApplication5.Services
         public async Task<bool> DeleteAsync(int id)
         {
             _logger.LogInformation("Service: Delete department employee id {Id}", id);
-            var isExists = await _repository.ExistsAsync(id);
-            if (!isExists)
-            {
-                _logger.LogWarning("Service: Department employee id {Id} not found for delete", id);
-                return false;
-            }
-
-            await _repository.DeleteAsync(id);
-            _logger.LogInformation("Service: Deleted department employee id {Id}", id);
-            return true;
+            var result = await _repository.DeleteAsync(id);
+            return result;
         }
     }
 }

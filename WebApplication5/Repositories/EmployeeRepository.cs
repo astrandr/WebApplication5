@@ -18,7 +18,7 @@ namespace WebApplication5.Repositories
         public async Task<List<DepartmentEmployee>> GetAllAsync()
         {
             _logger.LogInformation("Retrieving all department employees");
-            return await _dbContext.DepartmentEmployees.ToListAsync();
+            return await _dbContext.DepartmentEmployees.AsNoTracking().ToListAsync();
         }
 
         public async Task<DepartmentEmployee?> GetByIdAsync(int id)
@@ -39,12 +39,12 @@ namespace WebApplication5.Repositories
         public async Task UpdateAsync(DepartmentEmployee employee)
         {
             _logger.LogInformation("Updating department employee with id {Id}", employee.Id);
-            _dbContext.Entry(employee).State = EntityState.Modified;
+
             await _dbContext.SaveChangesAsync();
             _logger.LogInformation("Updated department employee with id {Id}", employee.Id);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             _logger.LogInformation("Deleting department employee with id {Id}", id);
             var employee = await _dbContext.DepartmentEmployees.FindAsync(id);
@@ -53,10 +53,12 @@ namespace WebApplication5.Repositories
                 _dbContext.DepartmentEmployees.Remove(employee);
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Deleted department employee with id {Id}", id);
+                return true;
             }
             else
             {
                 _logger.LogWarning("Attempted to delete non-existing department employee with id {Id}", id);
+                return false;
             }
         }
 
